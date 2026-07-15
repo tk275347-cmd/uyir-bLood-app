@@ -1622,13 +1622,14 @@ function registerMobile(){ startMobileOtp('register'); }
  
  // இந்த பங்க்ஷனைப் புதிதாகச் சேர்த்துவிடுங்கள்
 function ensureRecaptcha() {
+    // 1. பழைய verifier இருந்தால் நீக்கவும்
     if (window.recaptchaVerifier) {
-        try { 
-            window.recaptchaVerifier.clear(); 
-        } catch (e) {
-            console.log("Error clearing old verifier", e);
-        }
+        try { window.recaptchaVerifier.clear(); } catch (e) {}
     }
+
+    // 2. முக்கிய மாற்றம்: 'firebase.auth.RecaptchaVerifier' என்பதற்கு பதில் 
+    // உங்கள் மாடியூல் ஸ்கிரிப்ட்டில் இருந்து வந்த 'window.RecaptchaVerifier'-ஐ பயன்படுத்தவும்
+    // மற்றும் முதல் பாராமீட்டராக 'window.fbAuth'-ஐ கொடுக்கவும்.
     
     window.recaptchaVerifier = new window.RecaptchaVerifier(window.fbAuth, 'recaptcha-container', {
         'size': 'normal',
@@ -1639,7 +1640,7 @@ function ensureRecaptcha() {
             window.recaptchaVerifier.render(); 
         }
     });
-    
+
     window.recaptchaVerifier.render();
     return window.recaptchaVerifier;
 }
