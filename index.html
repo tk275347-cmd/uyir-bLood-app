@@ -463,7 +463,7 @@
             </div>
             <div class="field">
               <label for="rcvMob">மொபைல் நம்பர்</label>
-              <div class="with-icon"><span class="pre" aria-hidden="true">📱</span><input id="rcvMob" name="mobile" type="tel" inputmode="tel" maxlength="14" autocomplete="tel" placeholder="+919012345678" aria-describedby="rcvMob-err"></div>
+              <div class="with-icon"><span class="pre" aria-hidden="true">📱</span><input id="rcvMob" name="mobile" type="tel" inputmode="tel" maxlength="14" autocomplete="tel" placeholder="9012345678" aria-describedby="rcvMob-err"></div>
               <p class="field-err" id="rcvMob-err" role="alert"></p>
             </div>
             <div class="field">
@@ -618,7 +618,7 @@
             <p class="method-title">📱 மொபைல் நம்பர் + OTP</p>
             <div class="field">
               <label for="lgMobileNum">மொபைல் நம்பர்</label>
-              <div class="with-icon"><span class="pre" aria-hidden="true">📱</span><input id="lgMobileNum" type="tel" inputmode="tel" maxlength="14" autocomplete="tel" placeholder="எ.கா-+919012345678" aria-describedby="lgMobileNum-err"></div>
+              <div class="with-icon"><span class="pre" aria-hidden="true">📱</span><input id="lgMobileNum" type="tel" inputmode="tel" maxlength="14" autocomplete="tel" placeholder="எ.கா-9012345678" aria-describedby="lgMobileNum-err"></div>
               <p class="field-err" id="lgMobileNum-err" role="alert"></p>
             </div>
             <div class="otp-limit-note"><span aria-hidden="true">ℹ️</span><span>பாதுகாப்பிற்காக ஒரு நாளைக்கு அதிகபட்சம் <b>10 OTP</b> மட்டுமே. <span id="lgOtpCounter"></span></span></div>
@@ -722,7 +722,7 @@
             <p class="method-title">📱 மொபைல் நம்பர் + OTP</p>
             <div class="field">
               <label for="rgMobileNum">மொபைல் நம்பர்</label>
-              <div class="with-icon"><span class="pre" aria-hidden="true">📱</span><input id="rgMobileNum" type="tel" inputmode="tel" maxlength="14" autocomplete="tel" placeholder="+919012345678" aria-describedby="rgMobileNum-err"></div>
+              <div class="with-icon"><span class="pre" aria-hidden="true">📱</span><input id="rgMobileNum" type="tel" inputmode="tel" maxlength="14" autocomplete="tel" placeholder="9012345678" aria-describedby="rgMobileNum-err"></div>
               <p class="field-err" id="rgMobileNum-err" role="alert"></p>
             </div>
             <div class="otp-limit-note"><span aria-hidden="true">ℹ️</span><span>பாதுகாப்பிற்காக ஒரு நாளைக்கு அதிகபட்சம் <b>10 OTP</b> மட்டுமே. <span id="rgOtpCounter"></span></span></div>
@@ -777,7 +777,7 @@
             </div>
             <div class="field">
               <label for="dMob">மொபைல் நம்பர்</label>
-              <div class="with-icon"><span class="pre" aria-hidden="true">📱</span><input id="dMob" type="tel" inputmode="tel" maxlength="14" autocomplete="tel" placeholder="+919012345678" aria-describedby="dMob-err"></div>
+              <div class="with-icon"><span class="pre" aria-hidden="true">📱</span><input id="dMob" type="tel" inputmode="tel" maxlength="14" autocomplete="tel" placeholder="9012345678" aria-describedby="dMob-err"></div>
               <p class="field-err" id="dMob-err" role="alert"></p>
             </div>
             <button class="primary-btn" type="submit">＋ பதிவை சேர்</button>
@@ -884,6 +884,7 @@
 window.fbQuery = query;
 window.fbOrderByChild = orderByChild;
 window.fbEqualTo = equalTo;
+  window.fbGet = get;
 window.fbRef = ref; // 'ref' பங்க்ஷனையும் சேர்த்துக் கொள்ளுங்கள்
 
   console.log("Firebase Modular SDK initialized!");
@@ -2000,7 +2001,8 @@ function addDonorRecord(){
   if(!ok) return;
 
   // டூப்ளிகேட் தடுப்பு: டேட்டாபேஸில் இந்த எண் ஏற்கனவே உள்ளதா என்று பார்க்கவும
- const recordsRef = window.fbRef(window.fbDatabase,'records');
+ const db = window.fbDB;
+ const recordsRef = window.fbRef(db,'records');
  const q = window.fbQuery(recordsRef, window.fbOrderByChild('mobile'), window.fbEqualTo('+91' + mob));
     window.fbGet(q).then((snapshot) => {
       if (snapshot.exists()) {
