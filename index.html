@@ -8,7 +8,7 @@
  <!-- ===== Security: Content Security Policy =====
      script/style: self + inline (single-file app needs inline).
      Fonts allowed only from Google Fonts; images self/data; no framing; connect self. -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.gstatic.com https://www.google.com https://apis.google.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com https://*.firebasedatabase.app wss://*.firebasedatabase.app https://securetoken.googleapis.com https://identitytoolkit.googleapis.com https://github.com https://raw.githubusercontent.com; frame-src https://*.firebaseapp.com https://www.google.com https://accounts.google.com https://apis.google.com; base-uri 'self'; form-action 'self'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https:; connect-src 'self' https: wss:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; frame-src 'self' https: intent:;">
 <meta name="referrer" content="no-referrer">
 <!-- ===== PWA ===== -->
 <link rel="manifest" href="manifest.json">
@@ -848,6 +848,7 @@
   import {
     getDatabase, ref, set, push, get, query, orderByChild, equalTo, remove, serverTimestamp
   } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
+  import { initializeAppCheck, ReCaptchaV3Provider } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app-check.js";
 
  const firebaseConfig = {
   apiKey: "AIzaSyCgek5jmAeF_HBe1YD-mO8eLXdAL6q-wfU",
@@ -861,6 +862,10 @@
 };
  
   const app = initializeApp(firebaseConfig);
+  const appCheck = initializeAppCheck(app, {
+  provider: new ReCaptchaV3Provider('6LcGEVctAAAAAA24ovYgOXQGmVdmHKVBj34kILx4'),
+  isTokenAutoRefreshEnabled: true
+});
   window.fbAuth = getAuth(app);
   window.fbDB = getDatabase(app);
   window.fbReady = true;
