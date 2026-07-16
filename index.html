@@ -848,7 +848,7 @@
   import {
     getDatabase, ref, set, push, get, query, orderByChild, equalTo, remove, serverTimestamp
   } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
-  import { initializeAppCheck, ReCaptchaV3Provider } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app-check.js";
+  import { initializeAppCheck, ReCaptchaV3Provider } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app-check.js";
 
  const firebaseConfig = {
   apiKey: "AIzaSyCgek5jmAeF_HBe1YD-mO8eLXdAL6q-wfU",
@@ -908,14 +908,14 @@ var fbUser  = window.fbUser || null;
 
 /* When the async module finishes, refresh the mirrored globals so any
    auth/db call made afterwards uses the live Firebase instances. */
-document.addEventListener('firebase-ready', function () {
+document.addEventListener('firebase-ready',  () {
   fbReady = !!window.fbReady;
   fbAuth  = window.fbAuth || null;
   fbDB    = window.fbDB   || null;
   fbUser  = window.fbUser || null;
 });
 
- function loadMyRecordsFromDB() {
+  loadMyRecordsFromDB() {
     if (!fbDB || !fbUser) return;
 
     fbDB.ref('records')
@@ -2247,16 +2247,23 @@ function buildUpiUri(amount){
    iOS     → upi://pay (Safari hands off to installed UPI apps).                     */
 function launchUpi(amount){
   var upi = buildUpiUri(amount);
+  
   if(isAndroid()){
-    /* intent:// lets Android show the UPI app chooser (GPay / PhonePe / Paytm / BHIM…) */
     var query = upi.substring('upi://pay?'.length);
-    var intentUri = 'intent://pay?' + query +
-      '#Intent;scheme=upi;action=android.intent.action.VIEW;end';
-    window.location.href = intentUri;
-    /* Fallback to plain upi:// if intent handling is blocked */
-    setTimeout(function(){ try{ window.location.href = upi; }catch(e){} }, 800);
+    var intentUri = 'intent://pay?' + query + '#Intent;scheme=upi;action=android.intent.action.VIEW;end';
+    
+    // 1. ஒரு தற்காலிகமான லிங்க் உருவாக்கி அதைக் கிளிக் செய்ய வைப்பது (இதுதான் அதிகபட்ச வெற்றி தரும்)
+    var a = document.createElement('a');
+    a.href = intentUri;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+
+    // 2. Fallback
+    setTimeout(function(){ 
+      try { window.location.href = upi; } catch(e){} 
+    }, 1000);
   } else {
-    /* iOS + any other scheme-aware environment */
     window.location.href = upi;
   }
 }
