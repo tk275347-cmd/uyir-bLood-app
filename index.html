@@ -915,7 +915,7 @@ document.addEventListener('firebase-ready',  () => {
   fbUser  = window.fbUser || null;
 });
 
-  loadMyRecordsFromDB() {
+  function loadMyRecordsFromDB() {
     if (!fbDB || !fbUser) return;
 
     fbDB.ref('records')
@@ -924,17 +924,18 @@ document.addEventListener('firebase-ready',  () => {
         .once('value')
         .then(function(snapshot) {
             if (snapshot.exists()) {
-                myRecords = [];
+               var myRecords = [];
                 snapshot.forEach(function(child) {
                     myRecords.push(child.val());
                 });
                 renderMyRecords();
             }
         });
+ }
         .catch(function(err) {
             console.error("தரவை எடுக்க முடியவில்லை:", err);
         });
-}
+
  /* --- RECAPTCHA HELPER (Modular SDK compliant) --- */
 function ensureRecaptcha() {
   if (window.recaptchaVerifier) {
