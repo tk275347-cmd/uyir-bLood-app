@@ -937,9 +937,14 @@ document.addEventListener('firebase-ready',  () => {
   }
  /* --- RECAPTCHA HELPER (Modular SDK compliant) --- */
 function ensureRecaptcha() {
+ const auth = getAuth();
     if (window.recaptchaVerifier) {
+     try {
         window.recaptchaVerifier.clear();
-    }
+    } catch(e) {
+       console.log("error clearing", e);
+     }
+  }
 
     window.recaptchaVerifier = new RecaptchaVerifier(auth,'recaptcha-container', {
         'size': 'normal'
