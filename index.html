@@ -941,7 +941,7 @@ function ensureRecaptcha() {
         window.recaptchaVerifier.clear();
     }
 
-    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+    window.recaptchaVerifier = new RecaptchaVerifier(auth,'recaptcha-container', {
         'size': 'normal'
     });
 
